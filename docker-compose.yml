@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  mysql-dev:
+    container_name: mysql-dev
+    image: mysql
+    environment:
+      MYSQL_DATABASE: tunaiku_test
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    networks:
+      - api_network
+
+  tunaiku-api:
+    container_name: tunaiku-api
+    build: .
+    ports:
+      - "8000:8000"
+    networks:
+      - api_network
+    depends_on:
+      - mysql-dev
+
+networks:
+  api_network:
+    name: api_network
